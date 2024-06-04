@@ -1,0 +1,19 @@
+{
+  "name": "answersai",
+  "version": "1.0.0",
+  "description": "AnswersAI fullstack engineer takehome interview",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kedarabhyankar/Kedar-Abhyankar-AnswersAI-Fullstack.git"
+  },
+  "author": "Kedar Abhyankar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kedarabhyankar/Kedar-Abhyankar-AnswersAI-Fullstack/issues"
+  },
+  "homepage": "https://github.com/kedarabhyankar/Kedar-Abhyankar-AnswersAI-Fullstack#readme"
+}
