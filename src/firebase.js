@@ -12,7 +12,8 @@ import {
     getFirestore,
     setDoc,
     collection,
-    doc
+    doc,
+    updateDoc
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -92,4 +93,18 @@ export async function performLogOut() {
     }).catch((e) => {
         return {error: true, code: 0, message: e.message};
     });
+}
+
+export async function updateAPIToken(apiToken) {
+    const data = {
+        apiToken: apiToken
+    };
+
+    const docRef = doc(usersDB, getCurrentUser().email);
+    await updateDoc(docRef, data);
+    return {error: false, code: 1, message: "Successfully updated API Token!"};
+}
+
+export function getCurrentUser() {
+    return auth.currentUser;
 }

@@ -23,7 +23,7 @@ function AuthFlow() {
 
     const navigateToUserHome = () => {
         let path = "/chat"
-        navigate(path)
+        navigate(path, { state: {email}})
     }
     return (
         <div className="App">
