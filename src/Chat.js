@@ -1,7 +1,14 @@
 import {Button} from "@mui/material";
 import {performLogOut} from "./firebase";
+import {useNavigate} from 'react-router-dom';
 
 function Chat() {
+
+    let navigate = useNavigate();
+    const navigateToRootScreen = () => {
+        let path = "/"
+        navigate(path)
+    }
 
     return (
         <div className="App">
@@ -9,7 +16,7 @@ function Chat() {
                 <h1>Welcome to the AnswersAI Chat System</h1>
                 <Button variant="contained"
                         onClick={() => {
-                            performLogOut();
+                            performLogOut().then(r => navigateToRootScreen());
                         }}>
                     Log Out
                 </Button>
