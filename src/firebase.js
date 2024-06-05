@@ -4,7 +4,8 @@ import {
     getAuth,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
-    sendEmailVerification
+    sendEmailVerification,
+    signOut
 } from 'firebase/auth';
 
 import {
@@ -83,4 +84,12 @@ export async function completeRegistration(email, firstName, lastName, apiToken)
     } catch (e) {
         return {error: true, code: e.code, message: e.message};
     }
+}
+
+export async function performLogOut() {
+    await signOut(auth).then(() => {
+        return {error: false, code: 1, message: "Logged Out"};
+    }).catch((e) => {
+        return {error: true, code: 0, message: e.message};
+    });
 }
