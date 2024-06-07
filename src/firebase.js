@@ -158,6 +158,13 @@ export async function submitTextFromChatScreen(text, originalText) {
                 tokenCount: tokenCount
             };
             await updateDoc(docRef, data);
+            if(1000 - tokenCount <= 100) {
+                //within 100 of token count
+                let updatedMsg = "\nSystem: You've consumed " + tokenCount + " tokens so far. " +
+                    "You are nearing your 1000 per day limit.\n";
+                updatedMsg += originalText;
+                return updatedMsg;
+            }
             return originalText;
         } else {
             //checking for token count
