@@ -10,6 +10,11 @@ import {
 import {collection, doc, getDoc, getFirestore, setDoc, updateDoc} from 'firebase/firestore';
 import OpenAI from "openai";
 
+/**
+ @Author Kedar Abhyankar
+ @Email krabhyankar@gmail.com
+ */
+
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,

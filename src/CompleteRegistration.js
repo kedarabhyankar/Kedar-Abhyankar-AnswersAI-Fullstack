@@ -1,7 +1,11 @@
 import {useState} from "react";
-import {Button, FormControl, FormHelperText, TextField} from "@mui/material";
-import {completeRegistration, login} from "./firebase";
+import {Button, FormHelperText, TextField} from "@mui/material";
+import {completeRegistration} from "./firebase";
 import {useNavigate, useLocation} from 'react-router-dom'
+/**
+ @Author Kedar Abhyankar
+ @Email krabhyankar@gmail.com
+ */
 
 function CompleteRegistration() {
 
@@ -21,7 +25,7 @@ function CompleteRegistration() {
     return (
         <div className="App">
             <header className="App-header">
-                <a>Let's complete registration.</a>
+                <p>Let's complete registration.</p>
                 <br/>
                 <TextField
                     required

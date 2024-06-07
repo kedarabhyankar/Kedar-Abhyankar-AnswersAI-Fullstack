@@ -1,14 +1,29 @@
-import {Button, TextField} from "@mui/material";
-import {completeRegistration} from "./firebase";
-import {useLocation, useNavigate} from 'react-router-dom';
+import {Button} from "@mui/material";
+import {useNavigate} from 'react-router-dom';
 import {updateAPIToken} from "./firebase";
 import {useState} from "react";
+import CustomTextField from "./CustomTextField";
 
+/**
+ @Author Kedar Abhyankar
+ @Email krabhyankar@gmail.com
+ */
 function UserSettings() {
 
     let navigate = useNavigate();
     const [apiToken, setAPIToken] = useState('');
 
+
+    function performAPITokenUpdate(){
+        const res = updateAPIToken(apiToken);
+        res.then(e => {
+            if (e.code === 1) {
+                navigateToUserHome()
+            } else {
+                alert(e.message);
+            }
+        });
+    }
 
     const navigateToUserHome = () => {
         let path = "/Chat"
@@ -21,31 +36,15 @@ function UserSettings() {
                 User Settings
             </div>
 
-            <TextField
-                required
-                id="email-field"
-                inputProps={{
-                    style: {
-                        color: "white"
-                    }
-                }}
-                label="API Token"
-                variant="outlined"
+            <CustomTextField
+                id={"api-token"}
+                label={"API Token"}
                 value={apiToken}
                 onChange={(ev) => setAPIToken(ev.target.value)}/>
             <br/>
             <Button
                 variant="contained"
-                onClick={() => {
-                    const res = updateAPIToken(apiToken);
-                    res.then(e => {
-                        if (e.code === 1) {
-                            navigateToUserHome()
-                        } else {
-                            alert(e.message);
-                        }
-                    });
-                }}>
+                onClick={performAPITokenUpdate}>
                 Submit Changes
             </Button>
         </div>

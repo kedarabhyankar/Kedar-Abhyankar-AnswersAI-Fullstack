@@ -1,5 +1,10 @@
 import {useEffect} from "react";
 import {useNavigate} from 'react-router-dom'
+
+/**
+ @Author Kedar Abhyankar
+ @Email krabhyankar@gmail.com
+ */
 function Home() {
     let navigate = useNavigate()
 
@@ -15,8 +20,8 @@ function Home() {
         <div className="App">
             <header className="App-header">
                 <h1 className="App-title"> AnswersAI Take Home Interview </h1>
-                <a> Kedar Abhyankar, krabhyankar@gmail.com</a>
-                <a> Full Stack Engineer Interview</a>
+                <p> Kedar Abhyankar, krabhyankar@gmail.com</p>
+                <p> Full Stack Engineer Interview</p>
                 <br/>
                 <button onClick={navigateToAuthFlow}>Start</button>
             </header>

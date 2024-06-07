@@ -5,6 +5,10 @@ import Root from './Root';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 
+/**
+ @Author Kedar Abhyankar
+ @Email krabhyankar@gmail.com
+ */
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>

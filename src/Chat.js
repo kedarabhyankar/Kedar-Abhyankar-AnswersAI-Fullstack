@@ -1,9 +1,14 @@
-import {Button, debounce, TextareaAutosize, TextField} from "@mui/material";
+import {Button, debounce} from "@mui/material";
 import {performLogOut} from "./firebase";
 import {useNavigate} from 'react-router-dom';
 import {useState} from "react";
 import {submitTextFromChatScreen} from "./firebase";
 import {Textarea} from "@mui/joy";
+
+/**
+ @Author Kedar Abhyankar
+ @Email krabhyankar@gmail.com
+ */
 
 function Chat() {
 
@@ -36,8 +41,8 @@ function Chat() {
         <div className="App">
             <header className="App-header">
                 <h1>Welcome to the AnswersAI Chat System</h1>
-                <a>Type your question in the chat box below, and hit submit. You can also type --token to know
-                    how many tokens you have left. You have an allotted amount of 1000 tokens per day.</a>
+                <p>Type your question in the chat box below, and hit submit. You can also type --token to know
+                    how many tokens you have left. You have an allotted amount of 1000 tokens per day.</p>
             </header>
             <Textarea
                 id="resultTextBox"

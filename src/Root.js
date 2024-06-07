@@ -1,4 +1,4 @@
-import {Routes, Route, BrowserRouter} from 'react-router-dom'
+import {Routes, Route} from 'react-router-dom'
 import CompleteRegistration from "./CompleteRegistration";
 import Home from './Home.js';
 import AuthFlow from './AuthFlow';
@@ -6,6 +6,10 @@ import Chat from './Chat';
 import UserSettings from './UserSettings';
 import './App.css'
 
+/**
+ @Author Kedar Abhyankar
+ @Email krabhyankar@gmail.com
+ */
 function Root() {
     return (
         <div>

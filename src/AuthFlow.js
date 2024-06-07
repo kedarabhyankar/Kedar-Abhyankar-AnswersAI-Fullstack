@@ -8,6 +8,11 @@ import {login, registerUser} from './firebase'
 import {useNavigate} from 'react-router-dom'
 import CustomTextField from "./CustomTextField";
 
+/**
+ @Author Kedar Abhyankar
+ @Email krabhyankar@gmail.com
+ */
+
 function AuthFlow() {
 
     const [email, setEmail] = useState('');
@@ -33,7 +38,7 @@ function AuthFlow() {
             if (e.code === 1) {
                 navigateToUserHome()
             } else {
-                alert(e.message);
+                alert("Couldn't login. Are you sure you've registered?");
             }
         });
     }
