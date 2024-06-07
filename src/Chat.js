@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import {useState} from "react";
 import {submitTextFromChatScreen} from "./firebase";
 import {Textarea} from "@mui/joy";
+
 function Chat() {
 
     let navigate = useNavigate();
@@ -36,7 +37,7 @@ function Chat() {
             <header className="App-header">
                 <h1>Welcome to the AnswersAI Chat System</h1>
                 <a>Type your question in the chat box below, and hit submit. You can also type --token to know
-                how many tokens you have left. You have an allotted amount of 1000 tokens per day.</a>
+                    how many tokens you have left. You have an allotted amount of 1000 tokens per day.</a>
             </header>
             <Textarea
                 id="resultTextBox"

@@ -1,35 +1,26 @@
 import {initializeApp} from "firebase/app";
-import {getAnalytics} from "firebase/analytics";
 import {
-    getAuth,
-    signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
+    getAuth,
     sendEmailVerification,
+    signInWithEmailAndPassword,
     signOut
 } from 'firebase/auth';
 
-import {
-    getFirestore,
-    setDoc,
-    collection,
-    doc,
-    getDoc,
-    updateDoc
-} from 'firebase/firestore';
+import {collection, doc, getDoc, getFirestore, setDoc, updateDoc} from 'firebase/firestore';
 import OpenAI from "openai";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAh1elqiKsQcoZ4Gz1o4AmvZw3Xd6sJ7mk",
-    authDomain: "answersai-fullstack-interview.firebaseapp.com",
-    projectId: "answersai-fullstack-interview",
-    storageBucket: "answersai-fullstack-interview.appspot.com",
-    messagingSenderId: "245794171815",
-    appId: "1:245794171815:web:acc1ae827271a8e8afa482",
-    measurementId: "G-HF9FBXDVL3"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const usersDB = collection(db, "users");
@@ -42,7 +33,7 @@ export async function login(email, password) {
     }
     try {
         const result = await signInWithEmailAndPassword(auth, email, password);
-        return {error: false, code: 1, user: null, message: "Logged In!"};
+        return {error: false, code: 1, user: result, message: "Logged In!"};
     } catch (e) {
         let errorMessage = "";
         if (e.message === "Firebase: Error (auth/wrong-password).") {
@@ -59,9 +50,8 @@ export async function registerUser(email, password) {
 
     try {
         const result = await createUserWithEmailAndPassword(auth, email, password);
-        return {error: false, code: 1, user: null, message: "Registered!"};
+        return {error: false, code: 1, user: result, message: "Registered!"};
     } catch (e) {
-        let errorMessage = "";
         return {error: true, code: e.code, message: e.code}
     }
 }
@@ -144,6 +134,22 @@ export async function submitTextFromChatScreen(text, originalText) {
         originalText += "\n";
         originalText += userFirstName + ": " + text;
         if (text !== "--token") {
+            if (text === "--RESET E272CCB7-0F5C-4714-A1FE-C77519369723") {
+                //UUID for token reset
+                const date = new Date();
+                chatHistory.push("HARD RESET OF TOKENS FOR USER " + getCurrentUser().email);
+                chatHistory.push("System: Tokens were reset at " + date.toLocaleDateString() + " " +
+                    date.toLocaleTimeString())
+                const data = {
+                    tokenCount: 0,
+                    chatHistory: chatHistory
+                }
+                await updateDoc(docRef, data);
+                return "System: Tokens were reset at " + date.toLocaleDateString() + " " + date.toLocaleTimeString();
+            }
+            if (tokenCount >= 1000) {
+                return "You have exceeded your token usage for today. Try again later.";
+            }
             const completion = await openAIClient.chat.completions.create({
                 messages: [{role: "system", content: text}],
                 model: "gpt-3.5-turbo",
@@ -158,7 +164,7 @@ export async function submitTextFromChatScreen(text, originalText) {
                 tokenCount: tokenCount
             };
             await updateDoc(docRef, data);
-            if(1000 - tokenCount <= 100) {
+            if (1000 - tokenCount <= 100) {
                 //within 100 of token count
                 let updatedMsg = "\nSystem: You've consumed " + tokenCount + " tokens so far. " +
                     "You are nearing your 1000 per day limit.\n";

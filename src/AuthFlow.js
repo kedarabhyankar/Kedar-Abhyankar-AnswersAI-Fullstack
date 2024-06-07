@@ -3,90 +3,82 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import {Button, TextField} from "@mui/material";
+import {Button} from "@mui/material";
 import {login, registerUser} from './firebase'
 import {useNavigate} from 'react-router-dom'
+import CustomTextField from "./CustomTextField";
 
 function AuthFlow() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-
     let navigate = useNavigate()
 
+
+    //Navigation to completeRegistration
     const navigateToRegistrationFlow = () => {
         let path = "/completeRegistration"
-        navigate(path, { state: {email}})
+        navigate(path, {state: {email}})
     }
 
+    //Navigation for Login
     const navigateToUserHome = () => {
         let path = "/chat"
-        navigate(path, { state: {email}})
+        navigate(path, {state: {email}})
+    }
+
+    function performLogin() {
+        const res = login(email, password);
+        res.then(e => {
+            if (e.code === 1) {
+                navigateToUserHome()
+            } else {
+                alert(e.message);
+            }
+        });
+    }
+
+    function performRegisterUser() {
+        const res = registerUser(email, password);
+        res.then(e => {
+            if (e.code === 1) {
+                //registered successfully
+                navigateToRegistrationFlow()
+            } else {
+                alert(e.message);
+            }
+        });
     }
     return (
         <div className="App">
             <header className="App-header">
-                <a> Please sign in below. If it's your first time here, then select register.</a>
+                <p> Please sign in below. If it's your first time here, then select register.</p>
                 <br/>
-                <TextField
-                    required
-                    id="email-field"
-                    inputProps={{
-                        style: {
-                            color: "white"
-                        }
-                    }}
-                    label="Email Address"
-                    variant="outlined"
+                <CustomTextField
+                    id={"email-field"}
+                    label={"Email Address"}
                     value={email}
-                    type="email"
-                    onChange={(ev) => setEmail(ev.target.value)}/>
+                    type={"email"}
+                    onChange={(ev) => setEmail(ev.target.value)}
+                />
                 <br/>
-                <TextField
-                    required
-                    id="email-field"
-                    inputProps={{
-                        style: {
-                            color: "white"
-                        }
-                    }}
-                    label="Password"
-                    variant="outlined"
+                <CustomTextField
+                    id={"password=field"}
+                    label={"Password"}
                     value={password}
-                    type="password"
+                    type={"password"}
                     onChange={(ev) => setPassword(ev.target.value)}/>
                 <br/>
                 <div>
                     <Button
                         variant="contained"
-                        onClick={() => {
-                            const res = login(email, password);
-                            res.then(e => {
-                                if (e.code === 1) {
-                                    navigateToUserHome()
-                                } else {
-                                    alert(e.message);
-                                }
-                            });
-                        }}>
+                        onClick={performLogin}>
                         Login
                     </Button>
                     &nbsp;&nbsp;&nbsp;
                     <Button
                         variant="contained"
-                        onClick={() => {
-                            const res = registerUser(email, password);
-                            res.then(e => {
-                                if (e.code === 1) {
-                                    //registered successfully
-                                    navigateToRegistrationFlow()
-                                } else {
-                                    alert(e.message);
-                                }
-                            });
-                        }}>
+                        onClick={performRegisterUser}>
                         Register
                     </Button>
                 </div>
