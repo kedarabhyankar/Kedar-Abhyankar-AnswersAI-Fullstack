@@ -29,8 +29,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const usersDB = collection(db, "users");
-let openAIClient;
-let openAIInitialRequestMade = false;
 
 export async function login(email, password) {
     if (!email || !password) {
@@ -118,16 +116,13 @@ export async function submitTextFromChatScreen(text, originalText) {
     let verifiedStatus = snap.data().verified;
     let chatHistory = snap.data().chatHistory;
     let tokenCount = snap.data().tokenCount;
-    if (!openAIInitialRequestMade) {
-        //no initial request made, re-initialize to set API key
-        openAIClient = new OpenAI({
-            apiKey: apiToken,
-            dangerouslyAllowBrowser: true
-        })
-        openAIInitialRequestMade = true;
-    }
+    let openAIClient = new OpenAI({
+        apiKey: apiToken,
+        dangerouslyAllowBrowser: true
+    })
     if (getCurrentUser().emailVerified && !verifiedStatus) {
         //marked as not verified in firebase, but auth says it's verified
+        console.log("here")
         verifiedStatus = true;
         const data = {
             verified: true
@@ -136,6 +131,9 @@ export async function submitTextFromChatScreen(text, originalText) {
     }
 
     if (verifiedStatus) {
+        if (apiToken === "") {
+            return "Your API Token is empty. Please fix that under User Settings prior to making a request."
+        }
         originalText += "\n";
         originalText += userFirstName + ": " + text;
         if (text !== "--token") {
